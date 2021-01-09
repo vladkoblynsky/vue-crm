@@ -11,12 +11,10 @@ import EmptyLayout from "./layouts/EmptyLayout.vue";
 
 export default Vue.extend({
   name: "App",
-
   components: {
     MainLayout,
     EmptyLayout
   },
-
   data: () => ({}),
   computed: {
     layout() {
