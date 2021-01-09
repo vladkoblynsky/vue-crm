@@ -14,10 +14,7 @@ interface StateInterface {
 
 export default new Vuex.Store({
   state: {
-    snackbarMsg: {
-      msg: "Test error",
-      color: "secondary"
-    }
+    snackbarMsg: null
   } as StateInterface,
   mutations: {
     setError(state: StateInterface, error: string) {
