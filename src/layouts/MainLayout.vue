@@ -10,7 +10,7 @@
         <router-view />
       </v-container>
       <v-fab-transition>
-        <v-btn color="primary" dark fixed bottom right fab>
+        <v-btn color="primary" to="/record" dark fixed bottom right fab>
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-fab-transition>

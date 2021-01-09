@@ -1,8 +1,10 @@
 <template>
   <v-app-bar app color="#ffa726" clipped-left justify-space-between>
     <div class="flex items-center">
-      <v-app-bar-nav-icon @click.prevent="toggleDrawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>12.12.12</v-toolbar-title>
+      <v-app-bar-nav-icon
+        @click.prevent="$emit('toggleDrawer')"
+      ></v-app-bar-nav-icon>
+      <v-toolbar-title>{{ date | date("datetime") }}</v-toolbar-title>
     </div>
     <v-spacer></v-spacer>
     <div>
@@ -24,7 +26,7 @@
               Profile
             </v-list-item-title>
           </v-list-item>
-          <v-list-item link to="/logout">
+          <v-list-item link @click.prevent="logout">
             <v-list-item-title>
               <v-icon left>
                 mdi-logout
@@ -40,11 +42,29 @@
 
 <script lang="ts">
 import Vue from "vue";
+
+interface DataInterface {
+  date: Date;
+  intervalId: number | null;
+}
 export default Vue.extend({
+  data: (): DataInterface => ({
+    date: new Date(),
+    intervalId: null
+  }),
   methods: {
-    toggleDrawer() {
-      this.$emit("toggleDrawer");
+    logout() {
+      console.log("logout");
+      this.$router.push("/login?message=logout");
     }
+  },
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.date = new Date();
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalId || undefined);
   }
 });
 </script>

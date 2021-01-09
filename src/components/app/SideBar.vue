@@ -1,29 +1,30 @@
 <template>
   <v-list>
-    <v-list-item link to="/">
+    <v-list-item
+      v-for="link of links"
+      link
+      exact
+      :to="link.href"
+      :key="link.href"
+    >
       <v-list-item-content>
-        <v-list-item-title>Score</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item link to="/history">
-      <v-list-item-content>
-        <v-list-item-title>History</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item link to="/planning">
-      <v-list-item-content>
-        <v-list-item-title>Planning</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item link to="/record">
-      <v-list-item-content>
-        <v-list-item-title>New record</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item link to="/categories">
-      <v-list-item-content>
-        <v-list-item-title>Categories</v-list-item-title>
+        <v-list-item-title>{{ link.label }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
+  data: () => ({
+    links: [
+      { href: "/", label: "Score" },
+      { href: "/history", label: "History" },
+      { href: "/planning", label: "Planning" },
+      { href: "/record", label: "New record" },
+      { href: "/categories", label: "Categories" }
+    ]
+  })
+});
+</script>
