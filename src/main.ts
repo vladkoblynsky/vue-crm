@@ -14,6 +14,8 @@ import "firebase/database";
 firebase.initializeApp({
   apiKey: "AIzaSyCizR-Zjpru7qGjqMnjyJb3utCs0LYXz2M",
   authDomain: "vuecrm-997c5.firebaseapp.com",
+  databaseURL:
+    "https://vuecrm-997c5-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "vuecrm-997c5",
   storageBucket: "vuecrm-997c5.appspot.com",
   messagingSenderId: "284172843329",

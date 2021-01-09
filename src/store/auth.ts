@@ -4,6 +4,12 @@ interface LoginPayloadInterface {
   email: string;
   password: string;
 }
+interface RegisterPayloadInterface {
+  email: string;
+  password: string;
+  firstName: string;
+  bill: number;
+}
 
 export default {
   actions: {
@@ -11,18 +17,35 @@ export default {
       { dispatch, commit }: any,
       { email, password }: LoginPayloadInterface
     ) {
-      console.log(dispatch, commit);
-
       try {
-        const res = await firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password);
-        console.log(res);
+        await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (e) {
-        console.error(e);
-
+        commit("setError", e.message);
         throw e;
       }
+    },
+    async register(
+      { dispatch, commit }: any,
+      { email, password, firstName, bill }: RegisterPayloadInterface
+    ) {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const uid = await dispatch("getUid");
+        await firebase
+          .database()
+          .ref(`/users/${uid}/info`)
+          .set({
+            bill,
+            firstName
+          });
+      } catch (e) {
+        commit("setError", e.message);
+        throw e;
+      }
+    },
+    getUid(): string | undefined {
+      const user = firebase.auth().currentUser;
+      return user?.uid;
     },
     async logout() {
       await firebase.auth().signOut();

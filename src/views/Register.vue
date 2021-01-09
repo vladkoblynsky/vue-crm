@@ -74,7 +74,7 @@ export default Vue.extend({
     agreeWithRules: { checked: v => v }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.$v.$touch();
@@ -84,10 +84,14 @@ export default Vue.extend({
         email: this.email,
         password: this.password,
         firstName: this.firstName,
-        agreeWithRules: this.agreeWithRules
+        bill: 10000
       };
-      console.log(formData);
-      this.$router.push("/");
+      try {
+        await this.$store.dispatch("register", formData);
+        console.log("submit success");
+
+        this.$router.push("/");
+      } catch (e) {}
     }
   }
 });
