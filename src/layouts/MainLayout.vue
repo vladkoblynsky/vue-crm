@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <NavBar @toggleDrawer="toggleDrawer" />
+    <NavBar @toggleDrawer="toggleDrawer" :userInfo="userInfo" />
     <v-navigation-drawer v-model="drawer" app clipped>
       <SideBar />
     </v-navigation-drawer>
@@ -22,6 +22,7 @@
 import Vue from "vue";
 import NavBar from "@/components/app/NavBar.vue";
 import SideBar from "@/components/app/SideBar.vue";
+import { FETCH_USER_INFO_ACTION } from "@/store/user/actions";
 export default Vue.extend({
   components: {
     NavBar,
@@ -34,6 +35,14 @@ export default Vue.extend({
     toggleDrawer: function() {
       this.drawer = !this.drawer;
     }
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo;
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch(FETCH_USER_INFO_ACTION);
   }
 });
 </script>

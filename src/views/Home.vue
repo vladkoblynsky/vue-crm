@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="my-4 flex items-center justify-between">
-      <h4 class="text-h4">Score</h4>
+      <h4 class="text-h4">Bill</h4>
       <v-btn color="primary" elevation="2">
         <i class="material-icons">refresh</i>
       </v-btn>
@@ -10,34 +10,10 @@
     <v-divider class="my-4"></v-divider>
     <v-row>
       <v-col cols="auto" sm="12" md="5">
-        <v-card class="card light-blue white--text min-h-300" outlined tile>
-          <span class="card-title">Score with currency</span>
-          <p class="currency-line">
-            <span>12.0 USD</span>
-          </p>
-        </v-card>
+        <HomeBill />
       </v-col>
       <v-col cols="auto" sm="12" md="7">
-        <v-card class="card orange darken-3 white--text" outlined tile>
-          <h5 class="card-title">Exchange rates</h5>
-          <table>
-            <thead>
-              <tr>
-                <th>Currency</th>
-                <th>Exchange</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>USD</td>
-                <td>12121</td>
-                <td>12.12.12</td>
-              </tr>
-            </tbody>
-          </table>
-        </v-card>
+        <HomeExchangeRates />
       </v-col>
     </v-row>
   </div>
@@ -45,14 +21,23 @@
 
 <script lang="ts">
 import Vue from "vue";
+import HomeBill from "../components/HomeBill.vue";
+import HomeExchangeRates from "../components/HomeExchangeRates.vue";
+import { FETCH_EXCHANGE_RATES_ACTION } from "@/store/user/actions";
 
 export default Vue.extend({
   name: "Home",
-  components: {}
+  components: {
+    HomeBill,
+    HomeExchangeRates
+  },
+  async mounted() {
+    // await this.$store.dispatch(FETCH_EXCHANGE_RATES_ACTION);
+  }
 });
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .card {
   min-height: 300px;
   padding: 20px;

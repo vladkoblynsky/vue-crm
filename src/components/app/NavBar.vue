@@ -4,14 +4,16 @@
       <v-app-bar-nav-icon
         @click.prevent="$emit('toggleDrawer')"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ date | date("datetime") }}</v-toolbar-title>
+      <v-toolbar-title>{{
+        date.toString() | date("datetime")
+      }}</v-toolbar-title>
     </div>
     <v-spacer></v-spacer>
     <div>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="black" text v-bind="attrs" v-on="on" height="64">
-            User name
+            {{ userInfo && userInfo.firstName }}
             <v-icon right dark>
               mdi-menu-down
             </v-icon>
@@ -42,20 +44,31 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { LOGOUT_ACTION } from "@/store/auth/actions";
+import { SET_SNACKBAR_MUTATION } from "@/store/message/mutations";
+import messages from "@/utils/messages";
+import { UserInfoInterface } from "@/store/user/types";
 
 interface DataInterface {
   date: Date;
   intervalId: number | null;
 }
 export default Vue.extend({
+  props: {
+    userInfo: Object as () => UserInfoInterface | null
+  },
   data: (): DataInterface => ({
     date: new Date(),
     intervalId: null
   }),
   methods: {
     async logout() {
-      await this.$store.dispatch("logout");
-      this.$router.push("/login?message=logout");
+      await this.$store.dispatch(LOGOUT_ACTION);
+      await this.$store.commit(SET_SNACKBAR_MUTATION, {
+        msg: messages.logout,
+        variant: "info"
+      });
+      await this.$router.push("/login");
     }
   },
   mounted() {

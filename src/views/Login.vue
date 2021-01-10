@@ -39,20 +39,6 @@
         </p>
       </div>
     </form>
-    <v-snackbar :value="snackbarMessage" top right>
-      <span class="text-capitalize">{{ snackbarMessage }}</span>
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="secondary"
-          text
-          v-bind="attrs"
-          @click="snackbarMessage = ''"
-          :icon="true"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-card>
 </template>
 
@@ -60,7 +46,8 @@
 import Vue from "vue";
 import { email, required, minLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-import messages from "@/utils/messages";
+import { LOGIN_ACTION } from "@/store/auth/actions";
+import { LoginPayloadInterface } from "@/store/auth/types";
 
 export default Vue.extend({
   mixins: [validationMixin],
@@ -80,21 +67,14 @@ export default Vue.extend({
         this.$v.$touch();
         return;
       }
-      const formData = {
+      const formData: LoginPayloadInterface = {
         email: this.email,
         password: this.password
       };
       try {
-        await this.$store.dispatch("login", formData);
-        this.$router.push("/");
+        await this.$store.dispatch(LOGIN_ACTION, formData);
+        await this.$router.push("/");
       } catch (e) {}
-    }
-  },
-  mounted() {
-    if (this.$route.query.message) {
-      this.snackbarMessage =
-        messages[this.$route.query.message as string] ||
-        this.$route.query.message;
     }
   }
 });

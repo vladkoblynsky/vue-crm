@@ -58,6 +58,8 @@
 import Vue from "vue";
 import { email, required, minLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
+import { RegisterPayloadInterface } from "@/store/auth/types";
+import { REGISTER_ACTION } from "@/store/auth/actions";
 
 export default Vue.extend({
   mixins: [validationMixin],
@@ -80,17 +82,15 @@ export default Vue.extend({
         this.$v.$touch();
         return;
       }
-      const formData = {
+      const formData: RegisterPayloadInterface = {
         email: this.email,
         password: this.password,
         firstName: this.firstName,
         bill: 10000
       };
       try {
-        await this.$store.dispatch("register", formData);
-        console.log("submit success");
-
-        this.$router.push("/");
+        await this.$store.dispatch(REGISTER_ACTION, formData);
+        await this.$router.push("/");
       } catch (e) {}
     }
   }
