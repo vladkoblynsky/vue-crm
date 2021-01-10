@@ -36,7 +36,7 @@ export default {
       const res = await axios.get(`https://api.exchangerate.host/latest`, {
         params: {
           base: 'USD',
-          symbols: "BYN,RUB,EUR,UAH"
+          symbols: "USD,BYN,RUB,EUR,UAH"
         }
       });
       commit(SET_EXCHANGE_RATES_MUTATION, 

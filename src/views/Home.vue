@@ -2,7 +2,12 @@
   <div>
     <div class="my-4 flex items-center justify-between">
       <h4 class="text-h4">Bill</h4>
-      <v-btn color="primary" elevation="2">
+      <v-btn
+        color="primary"
+        elevation="2"
+        @click.prevent="refreshRates"
+        :disabled="loading"
+      >
         <i class="material-icons">refresh</i>
       </v-btn>
     </div>
@@ -10,10 +15,14 @@
     <v-divider class="my-4"></v-divider>
     <v-row>
       <v-col cols="auto" sm="12" md="5">
-        <HomeBill />
+        <HomeBill
+          :exchangeRates="exchangeRates"
+          :bill="bill"
+          :loading="loading"
+        />
       </v-col>
       <v-col cols="auto" sm="12" md="7">
-        <HomeExchangeRates />
+        <HomeExchangeRates :exchangeRates="exchangeRates" :loading="loading" />
       </v-col>
     </v-row>
   </div>
@@ -27,36 +36,31 @@ import { FETCH_EXCHANGE_RATES_ACTION } from "@/store/user/actions";
 
 export default Vue.extend({
   name: "Home",
+  data: () => ({
+    loading: true
+  }),
   components: {
     HomeBill,
     HomeExchangeRates
   },
+  computed: {
+    exchangeRates() {
+      return this.$store.getters.exchangeRates;
+    },
+    bill() {
+      return this.$store.getters.userInfo?.bill;
+    }
+  },
+  methods: {
+    async refreshRates() {
+      this.loading = true;
+      await this.$store.dispatch(FETCH_EXCHANGE_RATES_ACTION);
+      this.loading = false;
+    }
+  },
   async mounted() {
-    // await this.$store.dispatch(FETCH_EXCHANGE_RATES_ACTION);
+    await this.$store.dispatch(FETCH_EXCHANGE_RATES_ACTION);
+    this.loading = false;
   }
 });
 </script>
-
-<style lang="scss" scoped>
-.card {
-  min-height: 300px;
-  padding: 20px;
-}
-.card-title {
-  display: block;
-  line-height: 32px;
-  margin-bottom: 8px;
-  font-size: 24px;
-  font-weight: 300;
-}
-.currency-line {
-  align-items: center;
-  border-bottom: 2px solid #fff;
-  padding-bottom: 1rem;
-  padding-top: 1.5rem;
-  margin: 0;
-  & span {
-    font-size: 1.5rem;
-  }
-}
-</style>

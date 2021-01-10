@@ -8,7 +8,7 @@ export interface IExchangeRates {
   date: string;
   rates: {
     [key: string]: number
-  }[]
+  }
 }
 
 export interface UserStateInterface {
