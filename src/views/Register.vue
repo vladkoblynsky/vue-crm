@@ -86,7 +86,7 @@ export default Vue.extend({
         email: this.email,
         password: this.password,
         firstName: this.firstName,
-        bill: 10000
+        bill: 5000
       };
       try {
         await this.$store.dispatch(REGISTER_ACTION, formData);
