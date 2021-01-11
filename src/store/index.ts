@@ -4,7 +4,8 @@ import {RootStateInterface} from "@/store/globalTypes";
 import messageStore from "./message";
 import userStore from "./user";
 import authStore from "./auth";
-import categoryStore from "@/store/category";
+import categoryStore from "./category";
+import recordStore from "./record";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store<RootStateInterface>({
     authStore,
     messageStore,
     userStore,
-    categoryStore
+    categoryStore,
+    recordStore
   }
 });

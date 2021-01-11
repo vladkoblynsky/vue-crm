@@ -15,11 +15,14 @@ export interface ICategoryEditPayload {
   id: string;
 }
 
+export interface ICategoryDeletePayload {
+  id: string;
+}
+
 export interface ICategoryEditPayloadMutation {
   title: string;
   limit: number;
   id: string;
-  oldId: string;
 }
 
 export interface CategoryStateInterface {

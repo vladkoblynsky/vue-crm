@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <v-progress-linear v-show="loading" absolute indeterminate class="z-10"/>
     <NavBar :userInfo="userInfo" @toggleDrawer="toggleDrawer"/>
     <v-navigation-drawer app clipped v-model="drawer">
       <SideBar/>
@@ -7,7 +8,7 @@
 
     <v-main>
       <v-container class="p-4" fluid>
-        <router-view/>
+        <router-view v-if="!loading"/>
       </v-container>
       <v-fab-transition>
         <v-btn bottom color="primary" dark fab fixed right to="/record">
@@ -30,6 +31,7 @@
       SideBar
     },
     data: () => ({
+      loading: true,
       drawer: true
     }),
     methods: {
@@ -44,6 +46,7 @@
     },
     async mounted() {
       await this.$store.dispatch(FETCH_USER_INFO_ACTION);
+      this.loading = false;
     }
   });
 </script>

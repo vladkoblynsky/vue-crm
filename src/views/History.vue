@@ -28,7 +28,7 @@
           <td>12.12.32</td>
           <td>Name</td>
           <td>
-            <v-chip color="red white--text" small>Consumption</v-chip>
+            <v-chip color="red white--text" small>Outcome</v-chip>
           </td>
           <td>
             <v-btn color="secondary" small to="/detail-record">

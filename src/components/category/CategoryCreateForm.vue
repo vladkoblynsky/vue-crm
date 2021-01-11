@@ -22,14 +22,14 @@
             label="Limit"
             placeholder="Enter limit"
             type="number"
-            v-model="limit"
+            v-model.number="limit"
           ></v-text-field>
         </v-col>
       </v-row>
 
       <v-btn class="mt-4" color="primary" type="submit">
         Create
-        <v-icon class="ml-4" small>mdi-send</v-icon>
+        <v-icon class="ml-4" small>mdi-plus</v-icon>
       </v-btn>
     </form>
   </div>
@@ -44,9 +44,6 @@
 
   export default Vue.extend({
     name: "CategoryCreateForm",
-    props: {
-      created: Function
-    },
     mixins: [validationMixin],
     data: () => ({
       title: "",
@@ -68,12 +65,10 @@
           limit: this.limit
         };
         try {
-          const id = await this.$store.dispatch(CREATE_CATEGORY_ACTION, formData);
-          console.log('created cat', id);
+          await this.$store.dispatch(CREATE_CATEGORY_ACTION, formData);
           this.title = "";
           this.limit = 1;
           this.$v.$reset();
-          this.$emit('created', id);
         } catch (e) {
         }
       }

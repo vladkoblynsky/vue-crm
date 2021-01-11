@@ -11,6 +11,11 @@ export interface IExchangeRates {
   }
 }
 
+export interface IUpdateUserPayload {
+  bill?: number;
+  firstName?: string;
+}
+
 export interface UserStateInterface {
   uid: string | null;
   info: UserInfoInterface | null;

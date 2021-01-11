@@ -9,7 +9,7 @@
           <v-icon>mdi-chevron-right</v-icon>
         </v-breadcrumbs-divider>
         <v-breadcrumbs-item disabled to="/history">
-          Consumption
+          Outcome
         </v-breadcrumbs-item>
       </v-breadcrumbs>
       <v-row>

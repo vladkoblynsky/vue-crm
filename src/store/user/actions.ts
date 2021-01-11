@@ -1,7 +1,7 @@
 import {ActionTree} from "vuex";
 import axios from "axios";
 import firebase from 'firebase/app';
-import {UserStateInterface} from "@/store/user/types";
+import {IUpdateUserPayload, UserStateInterface} from "@/store/user/types";
 import {GlobalContextInterface, RootStateInterface} from "@/store/globalTypes";
 import {GET_USER_UID_ACTION} from "@/store/auth/actions";
 import {SET_SNACKBAR_MUTATION} from "@/store/message/mutations";
@@ -9,6 +9,7 @@ import {SET_EXCHANGE_RATES_MUTATION, SET_USER_INFO_MUTATION, SET_USER_UID_MUTATI
 
 export const FETCH_USER_INFO_ACTION = "FETCH_USER_INFO_ACTION";
 export const FETCH_EXCHANGE_RATES_ACTION = "FETCH_EXCHANGE_RATES_ACTION";
+export const UPDATE_USER_INFO_ACTION = "UPDATE_USER_INFO_ACTION";
 
 interface UserActionsInterface
   extends ActionTree<UserStateInterface, RootStateInterface> {
@@ -17,6 +18,10 @@ interface UserActionsInterface
   ) => Promise<void>;
   [FETCH_EXCHANGE_RATES_ACTION]: (
     context: GlobalContextInterface<UserStateInterface>
+  ) => Promise<void>;
+  [UPDATE_USER_INFO_ACTION]: (
+    context: GlobalContextInterface<UserStateInterface>,
+    payload: IUpdateUserPayload
   ) => Promise<void>;
 }
 
@@ -45,5 +50,17 @@ export default {
     } catch (e) {
       commit(SET_SNACKBAR_MUTATION, {msg: e.message, variant: "error"});
     }
-  }
+  },
+  [UPDATE_USER_INFO_ACTION]: async ({dispatch, commit, getters}, payload) => {
+    const uid = await dispatch(GET_USER_UID_ACTION);
+    try {
+      const info = getters.userInfo;
+      const data = {...info, ...payload};
+      await firebase.database().ref(`/users/${uid}/info`).update(data);
+      commit(SET_USER_INFO_MUTATION, data);
+      commit(SET_SNACKBAR_MUTATION, {msg: "Your profile has been updated", variant: "success"});
+    } catch (e) {
+      commit(SET_SNACKBAR_MUTATION, {msg: e.message, variant: "error"});
+    }
+  },
 } as UserActionsInterface;
