@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import {RootStateInterface} from "@/store/globalTypes";
 import messageStore from "./message";
 import userStore from "./user";
 import authStore from "./auth";
-import { RootStateInterface } from "@/store/globalTypes";
+import categoryStore from "@/store/category";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store<RootStateInterface>({
   modules: {
     authStore,
     messageStore,
-    userStore
+    userStore,
+    categoryStore
   }
 });

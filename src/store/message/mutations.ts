@@ -1,8 +1,5 @@
-import {
-  MessageStateInterface,
-  SnackbarMessageInterface
-} from "@/store/message/types";
-import { MutationTree } from "vuex";
+import {MessageStateInterface, SnackbarMessageInterface} from "@/store/message/types";
+import {MutationTree} from "vuex";
 import Vue from "vue";
 
 export const SET_SNACKBAR_MUTATION = "SET_SNACKBAR_MUTATION";

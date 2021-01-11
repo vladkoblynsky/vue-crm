@@ -1,16 +1,16 @@
 <template>
   <v-app>
-    <NavBar @toggleDrawer="toggleDrawer" :userInfo="userInfo" />
-    <v-navigation-drawer v-model="drawer" app clipped>
-      <SideBar />
+    <NavBar :userInfo="userInfo" @toggleDrawer="toggleDrawer"/>
+    <v-navigation-drawer app clipped v-model="drawer">
+      <SideBar/>
     </v-navigation-drawer>
 
     <v-main>
-      <v-container fluid class="p-4">
-        <router-view />
+      <v-container class="p-4" fluid>
+        <router-view/>
       </v-container>
       <v-fab-transition>
-        <v-btn color="primary" to="/record" dark fixed bottom right fab>
+        <v-btn bottom color="primary" dark fab fixed right to="/record">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-fab-transition>
@@ -19,30 +19,31 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import NavBar from "@/components/app/NavBar.vue";
-import SideBar from "@/components/app/SideBar.vue";
-import { FETCH_USER_INFO_ACTION } from "@/store/user/actions";
-export default Vue.extend({
-  components: {
-    NavBar,
-    SideBar
-  },
-  data: () => ({
-    drawer: true
-  }),
-  methods: {
-    toggleDrawer: function() {
-      this.drawer = !this.drawer;
+  import Vue from "vue";
+  import NavBar from "@/components/app/NavBar.vue";
+  import SideBar from "@/components/app/SideBar.vue";
+  import {FETCH_USER_INFO_ACTION} from "@/store/user/actions";
+
+  export default Vue.extend({
+    components: {
+      NavBar,
+      SideBar
+    },
+    data: () => ({
+      drawer: true
+    }),
+    methods: {
+      toggleDrawer: function () {
+        this.drawer = !this.drawer;
+      }
+    },
+    computed: {
+      userInfo() {
+        return this.$store.getters.userInfo;
+      }
+    },
+    async mounted() {
+      await this.$store.dispatch(FETCH_USER_INFO_ACTION);
     }
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo;
-    }
-  },
-  async mounted() {
-    await this.$store.dispatch(FETCH_USER_INFO_ACTION);
-  }
-});
+  });
 </script>

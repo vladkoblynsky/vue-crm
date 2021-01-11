@@ -1,6 +1,6 @@
 import actions from "./actions";
-import { Module } from "vuex";
-import { RootStateInterface } from "@/store/globalTypes";
+import {Module} from "vuex";
+import {RootStateInterface} from "@/store/globalTypes";
 
 const authStore: Module<{}, RootStateInterface> = {
   actions

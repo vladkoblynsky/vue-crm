@@ -1,4 +1,4 @@
-import { MessageStateInterface } from "./types";
+import {MessageStateInterface} from "./types";
 
 const messageState: MessageStateInterface = {
   snackbarMsg: null

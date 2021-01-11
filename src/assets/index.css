@@ -11,19 +11,24 @@
   padding-top: 5rem;
   height: 100vh;
 }
+
 .auth-card {
   width: 500px;
 }
+
 .auth-submit {
   width: 100%;
 }
+
 .app-page {
   padding: 2rem;
 }
+
 .app-main-layout {
   position: relative;
   min-height: 100vh;
 }
+
 .app-sidenav {
   padding-top: 5px;
   position: absolute;
@@ -33,15 +38,18 @@
   bottom: 0 !important;
   height: auto !important;
 }
+
 .app-sidenav.open {
   -webkit-transform: translateX(0);
   transform: translateX(0);
 }
+
 .currency-line {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
+
 .app-loader {
   width: 100%;
   -webkit-justify-content: center;
@@ -49,6 +57,7 @@
   justify-content: center;
   padding-top: 2rem;
 }
+
 .currency-line {
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -56,30 +65,37 @@
   border-bottom: 2px solid #fff;
   padding: 12px 0;
 }
+
 .currency-line span {
   /*font-size: 1.5rem;*/
 }
+
 .bill-card {
   height: 310px;
 }
+
 .form {
   max-width: 500px;
 }
+
 .history-chart {
   max-width: 600px;
   margin: 0 auto;
 }
+
 table {
   width: 100%;
   display: table;
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 table,
 th,
 td {
   border: none;
 }
+
 td,
 th {
   padding: 15px 5px;
@@ -88,13 +104,16 @@ th {
   vertical-align: middle;
   border-radius: 2px;
 }
+
 tr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
+
 .card {
   min-height: 300px;
   padding: 20px;
 }
+
 .card-title {
   display: block;
   line-height: 32px;

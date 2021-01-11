@@ -1,5 +1,5 @@
-import { GetterTree } from "vuex";
-import { RootStateInterface } from "@/store/globalTypes";
+import {GetterTree} from "vuex";
+import {RootStateInterface} from "@/store/globalTypes";
 import {UserStateInterface} from "@/store/user/types";
 
 export default {

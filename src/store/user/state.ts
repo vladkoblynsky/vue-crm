@@ -1,4 +1,4 @@
-import { UserStateInterface } from "./types";
+import {UserStateInterface} from "./types";
 
 export default {
   uid: null

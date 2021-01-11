@@ -39,10 +39,9 @@ export default {
           symbols: "USD,BYN,RUB,EUR,UAH"
         }
       });
-      commit(SET_EXCHANGE_RATES_MUTATION, 
+      commit(SET_EXCHANGE_RATES_MUTATION,
         {base: res.data.base, date: res.data.date, rates: res.data.rates},
-        
-        )
+      )
     } catch (e) {
       commit(SET_SNACKBAR_MUTATION, {msg: e.message, variant: "error"});
     }

@@ -1,4 +1,4 @@
-import { VuetifyPreset } from "vuetify/types/services/presets";
+import {VuetifyPreset} from "vuetify/types/services/presets";
 import en from "vuetify/src/locale/en";
 
 export const preset: VuetifyPreset = {
@@ -18,7 +18,7 @@ export const preset: VuetifyPreset = {
   },
   lang: {
     current: "en",
-    locales: { en },
+    locales: {en},
     t: undefined as any
   },
   rtl: false,

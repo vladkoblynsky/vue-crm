@@ -7,12 +7,12 @@
 
     <form class="form">
       <v-text-field
-        label="First name"
         hide-details="auto"
+        label="First name"
         v-model="firstName"
       ></v-text-field>
 
-      <v-btn color="primary" type="submit" class="mt-4">
+      <v-btn class="mt-4" color="primary" type="submit">
         Update
         <v-icon class="ml-4" small>mdi-send</v-icon>
       </v-btn>
@@ -21,10 +21,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({
-  data: () => ({
-    firstName: ""
-  })
-});
+  import Vue from "vue";
+
+  export default Vue.extend({
+    data: () => ({
+      firstName: ""
+    })
+  });
 </script>

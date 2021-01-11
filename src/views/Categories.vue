@@ -5,84 +5,57 @@
     </div>
     <v-divider class="my-4"></v-divider>
     <section>
-      <div class="row">
-        <div class="col s12 m6">
-          <div>
-            <h4 class="text-h5 mb-4">Create</h4>
-
-            <form>
-              <v-row>
-                <v-col cols="12" sm="12">
-                  <v-text-field
-                    label="Title"
-                    hide-details="auto"
-                    v-model="title"
-                    placeholder="Enter the title"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="12">
-                  <v-text-field
-                    label="Limit"
-                    hide-details="auto"
-                    type="number"
-                    v-model="limit"
-                    placeholder="Enter limit"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-btn color="primary" type="submit" class="mt-4">
-                Create
-                <v-icon class="ml-4" small>mdi-send</v-icon>
-              </v-btn>
-            </form>
-          </div>
-        </div>
-        <div class="col s12 m6">
-          <div>
-            <h4 class="text-h5 mb-4">Edit</h4>
-
-            <form>
-              <v-select :items="categories" label="Select category"></v-select>
-              <v-row>
-                <v-col cols="12" sm="12">
-                  <v-text-field
-                    label="Title"
-                    hide-details="auto"
-                    v-model="title"
-                    placeholder="Enter the title"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="12">
-                  <v-text-field
-                    label="Limit"
-                    hide-details="auto"
-                    type="number"
-                    v-model="limit"
-                    placeholder="Enter limit"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-btn color="primary" type="submit" class="mt-4">
-                Update
-                <v-icon class="ml-4" small>mdi-send</v-icon>
-              </v-btn>
-            </form>
-          </div>
-        </div>
-      </div>
+      <v-row>
+        <v-col cols="12" md="6" sm="12">
+          <CategoryCreateForm @created="onSuccessCreatedCategory"/>
+        </v-col>
+        <v-col cols="12" md="6" sm="12">
+          <CategoryEditForm :storeCategories="storeCategories" :category="categoryById"/>
+        </v-col>
+      </v-row>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({
-  data: () => ({
-    title: "",
-    limit: 1,
-    categories: ["Name cat"]
-  })
-});
+  import Vue from "vue";
+  import CategoryCreateForm from "@/components/category/CategoryCreateForm.vue";
+  import CategoryEditForm from "@/components/category/CategoryEditForm.vue";
+  import {FETCH_CATEGORIES_ACTION} from "@/store/category/actions";
+
+  interface DataInterface {
+    title: string;
+    limit: number;
+    categories: string[];
+    editCatId: string | null;
+  }
+
+  export default Vue.extend({
+    data: (): DataInterface => ({
+      title: "",
+      limit: 1,
+      categories: ["Name cat"],
+      editCatId: null
+    }),
+    components: {
+      CategoryCreateForm,
+      CategoryEditForm
+    },
+    computed: {
+      storeCategories() {
+        return this.$store.getters.storeCategories;
+      },
+      categoryById() {
+        return this.$store.getters.categoryById(this.editCatId);
+      }
+    },
+    methods: {
+      onSuccessCreatedCategory(id: string) {
+        this.editCatId = id;
+      }
+    },
+    async mounted() {
+      await this.$store.dispatch(FETCH_CATEGORIES_ACTION);
+    }
+  });
 </script>

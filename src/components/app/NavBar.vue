@@ -1,20 +1,21 @@
 <template>
-  <v-app-bar app color="#ffa726" clipped-left justify-space-between>
+  <v-app-bar app clipped-left color="#ffa726" justify-space-between>
     <div class="flex items-center">
       <v-app-bar-nav-icon
         @click.prevent="$emit('toggleDrawer')"
       ></v-app-bar-nav-icon>
       <v-toolbar-title>{{
         date.toString() | date("datetime")
-      }}</v-toolbar-title>
+        }}
+      </v-toolbar-title>
     </div>
     <v-spacer></v-spacer>
     <div>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="black" text v-bind="attrs" v-on="on" height="64">
+          <v-btn color="black" height="64" text v-bind="attrs" v-on="on">
             {{ userInfo && userInfo.firstName }}
-            <v-icon right dark>
+            <v-icon dark right>
               mdi-menu-down
             </v-icon>
           </v-btn>
@@ -28,7 +29,7 @@
               Profile
             </v-list-item-title>
           </v-list-item>
-          <v-list-item link @click.prevent="logout">
+          <v-list-item @click.prevent="logout" link>
             <v-list-item-title>
               <v-icon left>
                 mdi-logout
@@ -43,41 +44,42 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { LOGOUT_ACTION } from "@/store/auth/actions";
-import { SET_SNACKBAR_MUTATION } from "@/store/message/mutations";
-import messages from "@/utils/messages";
-import { UserInfoInterface } from "@/store/user/types";
+  import Vue from "vue";
+  import {LOGOUT_ACTION} from "@/store/auth/actions";
+  import {SET_SNACKBAR_MUTATION} from "@/store/message/mutations";
+  import messages from "@/utils/messages";
+  import {UserInfoInterface} from "@/store/user/types";
 
-interface DataInterface {
-  date: Date;
-  intervalId: number | null;
-}
-export default Vue.extend({
-  props: {
-    userInfo: Object as () => UserInfoInterface | null
-  },
-  data: (): DataInterface => ({
-    date: new Date(),
-    intervalId: null
-  }),
-  methods: {
-    async logout() {
-      await this.$store.dispatch(LOGOUT_ACTION);
-      await this.$store.commit(SET_SNACKBAR_MUTATION, {
-        msg: messages.logout,
-        variant: "info"
-      });
-      await this.$router.push("/login");
-    }
-  },
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.date = new Date();
-    }, 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.intervalId || undefined);
+  interface DataInterface {
+    date: Date;
+    intervalId: number | null;
   }
-});
+
+  export default Vue.extend({
+    props: {
+      userInfo: Object as () => UserInfoInterface | null
+    },
+    data: (): DataInterface => ({
+      date: new Date(),
+      intervalId: null
+    }),
+    methods: {
+      async logout() {
+        await this.$store.dispatch(LOGOUT_ACTION);
+        await this.$store.commit(SET_SNACKBAR_MUTATION, {
+          msg: messages.logout,
+          variant: "info"
+        });
+        await this.$router.push("/login");
+      }
+    },
+    mounted() {
+      this.intervalId = setInterval(() => {
+        this.date = new Date();
+      }, 1000);
+    },
+    beforeDestroy() {
+      clearInterval(this.intervalId || undefined);
+    }
+  });
 </script>
