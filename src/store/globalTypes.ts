@@ -26,14 +26,19 @@ import {
   EDIT_CATEGORY_ACTION,
   FETCH_CATEGORIES_ACTION
 } from "@/store/category/actions";
-import {IRecord, IRecordPayload} from "@/store/record/types";
-import {CREATE_RECORD_ACTION} from "@/store/record/actions";
+import {IRecord, IRecordPayload, RecordStateInterface} from "@/store/record/types";
+import {CREATE_RECORD_ACTION, FETCH_RECORDS_ACTION} from "@/store/record/actions";
+import {SET_RECORDS_MUTATION} from "@/store/record/mutations";
+import {MainStateInterface} from "@/store/main/types";
+import {SET_LOADING_MUTATION} from "@/store/main/mutations";
 
 export interface RootStateInterface {
+  mainStore: MainStateInterface;
   authStore: {};
   messageStore: MessageStateInterface;
   userStore: UserStateInterface;
-  categoryStore: CategoryStateInterface
+  categoryStore: CategoryStateInterface;
+  recorStore: RecordStateInterface;
 }
 
 export interface GlobalDispatchInterface {
@@ -72,9 +77,16 @@ export interface GlobalDispatchInterface {
   (type: typeof DELETE_CATEGORY_ACTION, payload: ICategoryDeletePayload): Promise<any>;
 
   (type: typeof CREATE_RECORD_ACTION, payload: IRecordPayload): Promise<IRecord>;
+
+  (type: typeof FETCH_RECORDS_ACTION): Promise<IRecord[]>;
 }
 
 export interface GlobalCommitInterface {
+  (
+    type: typeof SET_LOADING_MUTATION,
+    payload: boolean
+  ): void;
+
   (
     type: typeof SET_SNACKBAR_MUTATION,
     payload: SnackbarMessageInterface,
@@ -125,6 +137,12 @@ export interface GlobalCommitInterface {
   (
     type: typeof DELETE_CATEGORY_MUTATION,
     payload: ICategoryDeletePayload,
+    options?: CommitOptions
+  ): void;
+
+  (
+    type: typeof SET_RECORDS_MUTATION,
+    payload: IRecord[],
     options?: CommitOptions
   ): void;
 }

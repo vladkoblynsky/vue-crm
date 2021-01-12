@@ -8,7 +8,7 @@
 
     <v-main>
       <v-container class="p-4" fluid>
-        <router-view v-if="!loading"/>
+        <router-view v-if="userInfo"/>
       </v-container>
       <v-fab-transition>
         <v-btn bottom color="primary" dark fab fixed right to="/record">
@@ -24,6 +24,8 @@
   import NavBar from "@/components/app/NavBar.vue";
   import SideBar from "@/components/app/SideBar.vue";
   import {FETCH_USER_INFO_ACTION} from "@/store/user/actions";
+  import {SET_LOADING_MUTATION} from "@/store/main/mutations";
+  import {UserInfoInterface} from "@/store/user/types";
 
   export default Vue.extend({
     components: {
@@ -31,7 +33,6 @@
       SideBar
     },
     data: () => ({
-      loading: true,
       drawer: true
     }),
     methods: {
@@ -40,13 +41,17 @@
       }
     },
     computed: {
-      userInfo() {
+      loading(): boolean {
+        return this.$store.getters.loading;
+      },
+      userInfo(): UserInfoInterface {
         return this.$store.getters.userInfo;
       }
     },
     async mounted() {
+      this.$store.commit(SET_LOADING_MUTATION, true);
       await this.$store.dispatch(FETCH_USER_INFO_ACTION);
-      this.loading = false;
+      this.$store.commit(SET_LOADING_MUTATION, false);
     }
   });
 </script>

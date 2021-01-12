@@ -10,6 +10,7 @@ import dateFilter from "./filters/date.filter";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import priceFilter from "@/filters/price.filter";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCizR-Zjpru7qGjqMnjyJb3utCs0LYXz2M",
@@ -26,6 +27,7 @@ firebase.initializeApp({
 Vue.config.productionTip = false;
 
 Vue.filter("date", dateFilter);
+Vue.filter("price", priceFilter);
 Vue.use(Vuelidate);
 
 let app: any = null;

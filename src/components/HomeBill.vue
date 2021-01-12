@@ -10,18 +10,15 @@
     <table v-if="!!exchangeRates">
       <colgroup>
         <col/>
-        <col :width="50"/>
       </colgroup>
       <thead>
       <tr>
         <th>Amount</th>
-        <th/>
       </tr>
       </thead>
       <tbody>
       <tr :key="rate" v-for="rate of rates">
-        <td>{{ getPrice(rate) }}</td>
-        <td class="text-right">{{ rate }}</td>
+        <td>{{ getPrice(rate) | price(rate) }}</td>
       </tr>
       </tbody>
     </table>
@@ -40,7 +37,7 @@
     methods: {
       getPrice(currency: string) {
         if (!this.exchangeRates) return;
-        return (this.exchangeRates.rates[currency] * (this.bill || 0)).toFixed(2);
+        return this.exchangeRates.rates[currency] * (this.bill || 0);
       }
     },
     props: {
