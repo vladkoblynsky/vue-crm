@@ -9,35 +9,58 @@
     </div>
 
     <section>
-      <table>
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Category</th>
-          <th>Type</th>
-          <th>Open</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr>
-          <td>1</td>
-          <td>1212</td>
-          <td>12.12.32</td>
-          <td>Name</td>
-          <td>
-            <v-chip color="red white--text" small>Outcome</v-chip>
-          </td>
-          <td>
-            <v-btn color="secondary" small to="/detail-record">
-              <i class="material-icons">open_in_new</i>
-            </v-btn>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <p v-if="!localLoading && !records.length" class="text-center">No records found.
+        <router-link to="/record">Create first</router-link>
+      </p>
+      <HistoryTable v-else-if="records.length" :records="records"/>
     </section>
   </div>
 </template>
+
+<script lang="ts">
+  import Vue from 'vue';
+  import {FETCH_RECORDS_ACTION} from "@/store/record/actions";
+  import {IRecord} from "@/store/record/types";
+  import HistoryTable from "@/components/HistoryTable.vue";
+  import {SET_LOADING_MUTATION} from "@/store/main/mutations";
+  import {FETCH_CATEGORIES_ACTION} from "@/store/category/actions";
+  import {ICategory} from "@/store/category/types";
+
+  interface DataRecordInterface extends IRecord {
+    typeColor: string;
+    typeText: string;
+    categoryName: string;
+  }
+
+  export default Vue.extend({
+    name: "history",
+    components: {HistoryTable},
+    data: () => ({
+      localLoading: true,
+      records: [] as DataRecordInterface[]
+    }),
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      }
+    },
+    methods: {
+      setLoading(val: boolean) {
+        this.$store.commit(SET_LOADING_MUTATION, val);
+      }
+    },
+    async mounted() {
+      this.setLoading(true);
+      const records: IRecord[] = await this.$store.dispatch(FETCH_RECORDS_ACTION);
+      const categories: ICategory[] = await this.$store.dispatch(FETCH_CATEGORIES_ACTION);
+      this.records = records.map(record => ({
+        ...record,
+        categoryName: categories.find(cat => cat.id === record.categoryId)?.title || "",
+        typeText: record.type ? "Income" : "Outcome",
+        typeColor: record.type ? "success" : "error"
+      }));
+      this.setLoading(false);
+      this.localLoading = false;
+    }
+  })
+</script>

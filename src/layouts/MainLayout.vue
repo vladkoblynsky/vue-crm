@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-progress-linear v-show="loading" absolute indeterminate class="z-10"/>
+    <v-progress-linear absolute class="z-10" indeterminate v-show="loading"/>
     <NavBar :userInfo="userInfo" @toggleDrawer="toggleDrawer"/>
     <v-navigation-drawer app clipped v-model="drawer">
       <SideBar/>
@@ -10,11 +10,17 @@
       <v-container class="p-4" fluid>
         <router-view v-if="userInfo"/>
       </v-container>
-      <v-fab-transition>
-        <v-btn bottom color="primary" dark fab fixed right to="/record">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <v-tooltip left open-delay="500">
+        <template v-slot:activator="{ on, attrs }">
+          <v-fab-transition>
+            <v-btn bottom color="primary" dark fab fixed right to="/record" v-bind="attrs"
+                   v-on="on">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </template>
+        <span>Add new record</span>
+      </v-tooltip>
     </v-main>
   </v-app>
 </template>
@@ -38,6 +44,9 @@
     methods: {
       toggleDrawer: function () {
         this.drawer = !this.drawer;
+      },
+      setLoading(val: boolean) {
+        this.$store.commit(SET_LOADING_MUTATION, val);
       }
     },
     computed: {
@@ -49,9 +58,9 @@
       }
     },
     async mounted() {
-      this.$store.commit(SET_LOADING_MUTATION, true);
+      this.setLoading(true);
       await this.$store.dispatch(FETCH_USER_INFO_ACTION);
-      this.$store.commit(SET_LOADING_MUTATION, false);
+      this.setLoading(false);
     }
   });
 </script>

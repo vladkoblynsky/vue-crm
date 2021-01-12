@@ -24,10 +24,11 @@ import {
   CREATE_CATEGORY_ACTION,
   DELETE_CATEGORY_ACTION,
   EDIT_CATEGORY_ACTION,
-  FETCH_CATEGORIES_ACTION
+  FETCH_CATEGORIES_ACTION,
+  FETCH_CATEGORY_BY_ID_ACTION
 } from "@/store/category/actions";
 import {IRecord, IRecordPayload, RecordStateInterface} from "@/store/record/types";
-import {CREATE_RECORD_ACTION, FETCH_RECORDS_ACTION} from "@/store/record/actions";
+import {CREATE_RECORD_ACTION, FETCH_RECORD_BY_ID_ACTION, FETCH_RECORDS_ACTION} from "@/store/record/actions";
 import {SET_RECORDS_MUTATION} from "@/store/record/mutations";
 import {MainStateInterface} from "@/store/main/types";
 import {SET_LOADING_MUTATION} from "@/store/main/mutations";
@@ -68,7 +69,9 @@ export interface GlobalDispatchInterface {
 
   (type: typeof FETCH_EXCHANGE_RATES_ACTION): Promise<any>;
 
-  (type: typeof FETCH_CATEGORIES_ACTION): Promise<any>;
+  (type: typeof FETCH_CATEGORIES_ACTION): Promise<ICategory[]>;
+
+  (type: typeof FETCH_CATEGORY_BY_ID_ACTION, payload: string): Promise<ICategory>;
 
   (type: typeof CREATE_CATEGORY_ACTION, payload: ICategoryPayload): Promise<any>;
 
@@ -79,6 +82,8 @@ export interface GlobalDispatchInterface {
   (type: typeof CREATE_RECORD_ACTION, payload: IRecordPayload): Promise<IRecord>;
 
   (type: typeof FETCH_RECORDS_ACTION): Promise<IRecord[]>;
+
+  (type: typeof FETCH_RECORD_BY_ID_ACTION, payload: string): Promise<IRecord>;
 }
 
 export interface GlobalCommitInterface {

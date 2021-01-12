@@ -12,6 +12,7 @@ import {
 import {ICategory, ICategoryDeletePayload, ICategoryEditPayload, ICategoryPayload} from "@/store/category/types";
 
 export const FETCH_CATEGORIES_ACTION = "FETCH_CATEGORIES_ACTION";
+export const FETCH_CATEGORY_BY_ID_ACTION = "FETCH_CATEGORY_BY_ID_ACTION";
 export const CREATE_CATEGORY_ACTION = "CREATE_CATEGORY_ACTION";
 export const EDIT_CATEGORY_ACTION = "EDIT_CATEGORY_ACTION";
 export const DELETE_CATEGORY_ACTION = "DELETE_CATEGORY_ACTION";
@@ -20,6 +21,10 @@ interface CategoryActionsInterface extends ActionTree<{}, RootStateInterface> {
   [FETCH_CATEGORIES_ACTION]: (
     context: GlobalContextInterface<{}>
   ) => Promise<ICategory[]>;
+  [FETCH_CATEGORY_BY_ID_ACTION]: (
+    context: GlobalContextInterface<{}>,
+    payload: string
+  ) => Promise<ICategory>;
   [CREATE_CATEGORY_ACTION]: (
     context: GlobalContextInterface<{}>,
     payload: ICategoryPayload
@@ -38,10 +43,20 @@ export default {
   [FETCH_CATEGORIES_ACTION]: async ({dispatch, commit}) => {
     const uid = await dispatch(GET_USER_UID_ACTION);
     try {
-      const res = (await firebase.database().ref(`users/${uid}/categories`).limitToFirst(100).once('value')).val();
+      const res = (await firebase.database().ref(`users/${uid}/categories`).once('value')).val();
       const data = res ? Object.keys(res).map(key => ({id: key, ...res[key]})) : [];
       commit(SET_CATEGORIES_MUTATION, data);
       return data;
+    } catch (e) {
+      commit(SET_SNACKBAR_MUTATION, {msg: e.message, variant: "error"});
+      throw e;
+    }
+  },
+  [FETCH_CATEGORY_BY_ID_ACTION]: async ({dispatch, commit}, payload) => {
+    const uid = await dispatch(GET_USER_UID_ACTION);
+    try {
+      const category = (await firebase.database().ref(`users/${uid}/categories`).child(payload).once('value')).val();
+      return {...category, id: payload};
     } catch (e) {
       commit(SET_SNACKBAR_MUTATION, {msg: e.message, variant: "error"});
       throw e;

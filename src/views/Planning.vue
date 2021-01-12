@@ -14,7 +14,7 @@
               <div v-bind="attrs"
                    v-on="on">
                 <strong>{{cat.title}}:</strong>
-                {{cat.spend | price("USD")}} из {{cat.limit | price("USD")}}
+                {{cat.spend | price("USD")}} of {{cat.limit | price("USD")}}
 
                 <v-progress-linear :color="cat.progressColor"
                                    :value="Math.floor(cat.progressCurrent)"/>
