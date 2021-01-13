@@ -68,7 +68,7 @@
     data: (): DataInterface => ({
       loading: true,
       categories: [],
-      type: true,
+      type: false,
       amount: 1,
       description: "",
       categoryId: ""
@@ -115,7 +115,7 @@
       },
       resetForm() {
         this.categoryId = this.categories[0].id || "";
-        this.type = true;
+        this.type = false;
         this.amount = MIN_AMOUNT;
         this.description = "";
         this.$v.$reset();
