@@ -13,15 +13,15 @@ import "firebase/database";
 import priceFilter from "@/filters/price.filter";
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCizR-Zjpru7qGjqMnjyJb3utCs0LYXz2M",
-  authDomain: "vuecrm-997c5.firebaseapp.com",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: `${process.env.VUE_APP_FIREBASE_PROJECT_ID}.firebaseapp.com`,
   databaseURL:
-    "https://vuecrm-997c5-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "vuecrm-997c5",
-  storageBucket: "vuecrm-997c5.appspot.com",
-  messagingSenderId: "284172843329",
-  appId: "1:284172843329:web:aa9fa446114e241dac89c0",
-  measurementId: "G-RDK2BQ1CMJ"
+    `https://${process.env.VUE_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app`,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: `${process.env.VUE_APP_FIREBASE_PROJECT_ID}.appspot.com`,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  measurementId: `G-${process.env.VUE_APP_FIREBASE_MEASUREMENT_ID}`
 });
 
 Vue.config.productionTip = false;
